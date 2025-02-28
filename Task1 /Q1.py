@@ -1,5 +1,6 @@
 import numpy as np
-
+import time
+import matplotlib.pyplot as plt
 def naive_matrix_multiplication(A, B):
     """ Bottom-up divide-and-conquer matrix multiplication (iterative). """
     n = A.shape[0]
@@ -25,10 +26,29 @@ def naive_matrix_multiplication(A, B):
 
     return C
 
-# Example usage
-n = 4  # Matrix size (must be power of 2)
-A = np.random.randint(1, 10, (n, n))
-B = np.random.randint(1, 10, (n, n))
+# Measure execution time for different matrix sizes
+sizes = [2**i for i in range(2, 8)]  # Matrix sizes: 4, 8, 16, 32, 64
+times = []
 
-C = naive_matrix_multiplication(A, B)
-print("Result Matrix C:\n", C)
+for n in sizes:
+    A = np.random.randint(1, 10, (n, n))
+    B = np.random.randint(1, 10, (n, n))
+    
+    start = time.times()
+    naive_matrix_multiplication(A, B)
+    end = time.time()
+    
+    time.append(end - start)
+
+# Plot results
+plt.figure(figsize=(8,5))
+plt.plot(sizes, time, marker='o', linestyle='-', label="Measured Time")
+plt.plot(sizes, [t**3 for t in sizes], linestyle='--', label="O(n³) Trend")  
+plt.xlabel("Matrix Size (n)")
+plt.ylabel("Execution Time (seconds)")
+plt.title("Time Complexity of Naive Divide-and-Conquer Matrix Multiplication")
+plt.legend()
+plt.grid()
+plt.show()
+
+
