@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import matplotlib.pyplot as plt
+from scipy import stats
 def naive_matrix_multiplication(A, B):
     """ Bottom-up divide-and-conquer matrix multiplication (iterative). """
     n = A.shape[0]
@@ -40,8 +41,9 @@ for n in sizes:
     execution_time = end_time - start_time
     execution_times.append(execution_time)
     print(f"Size {n}x{n}: {execution_time:.6f} seconds")
-    
-
+    log_sizes = np.log(sizes)
+log_times = np.log(execution_times)
+slope, intercept, r_value, p_value, std_err = stats.linregress(log_sizes, log_times)
 # Plot results
 plt.figure(figsize=(8,5))
 plt.plot(sizes, execution_times, marker='o', linestyle='-', label="Measured Time")
@@ -53,4 +55,8 @@ plt.legend()
 plt.grid()
 plt.show()
 
+print(f"Calculated scaling exponent: {slope:.4f}")
+print(f"R-squared: {r_value**2:.4f}")
 
+#gives calculates scaling exponent of 2.8839
+#evaluates R-squared as 0.9999
