@@ -28,21 +28,23 @@ def naive_matrix_multiplication(A, B):
 
 # Measure execution time for different matrix sizes
 sizes = [2**i for i in range(2, 8)]  # Matrix sizes: 4, 8, 16, 32, 64
-times = []
+execution_times = []
 
 for n in sizes:
     A = np.random.randint(1, 10, (n, n))
     B = np.random.randint(1, 10, (n, n))
     
-    start = time.times()
+    start_time = time.time()
     naive_matrix_multiplication(A, B)
-    end = time.time()
+    end_time = time.time()
+    execution_time = end_time - start_time
+    execution_times.append(execution_time)
+    print(f"Size {n}x{n}: {execution_time:.6f} seconds")
     
-    time.append(end - start)
 
 # Plot results
 plt.figure(figsize=(8,5))
-plt.plot(sizes, time, marker='o', linestyle='-', label="Measured Time")
+plt.plot(sizes, execution_times, marker='o', linestyle='-', label="Measured Time")
 plt.plot(sizes, [t**3 for t in sizes], linestyle='--', label="O(n³) Trend")  
 plt.xlabel("Matrix Size (n)")
 plt.ylabel("Execution Time (seconds)")
