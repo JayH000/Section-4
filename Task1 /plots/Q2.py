@@ -137,3 +137,11 @@ if __name__ == "__main__":
     numpy_result = np.dot(np.array(A), np.array(B))
     print("\nVerification with NumPy:")
     print(numpy_result)
+
+    #Result using Strassen's algorithm:
+#[58, 64]
+#[139, 154]
+
+#Verification with NumPy:
+#[[ 58  64]
+ #[139 154]]S
