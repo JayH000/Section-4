@@ -1,7 +1,7 @@
 import numpy as np
 
 def split_matrix(matrix):
-    """Split a matrix into four equal quadrants."""
+    #Split a matrix into four equal quadrants.
     n = len(matrix)
     mid = n // 2
     a11 = [row[:mid] for row in matrix[:mid]]
@@ -11,7 +11,7 @@ def split_matrix(matrix):
     return a11, a12, a21, a22
 
 def add_matrices(a, b):
-    """Add two matrices."""
+    #Add two matrices.
     n = len(a)
     result = [[0 for _ in range(n)] for _ in range(n)]
     for i in range(n):
@@ -20,7 +20,7 @@ def add_matrices(a, b):
     return result
 
 def subtract_matrices(a, b):
-    """Subtract matrix b from matrix a."""
+    #Subtract matrix b from matrix a.
     n = len(a)
     result = [[0 for _ in range(n)] for _ in range(n)]
     for i in range(n):
@@ -71,7 +71,7 @@ def strassen(a, b):
     return result
 
 def pad_matrix(matrix):
-    """Pad a matrix with zeros to make its dimensions a power of 2."""
+    #Pad a matrix with zeros to make its dimensions a power of 2.
     n = len(matrix)
     m = max(n, len(matrix[0]))
     
@@ -145,3 +145,14 @@ if __name__ == "__main__":
 #Verification with NumPy:
 #[[ 58  64]
  #[139 154]]S
+
+
+#Finding a,b, and f
+#a=7 due to the reduced number of matricies 
+#b=2 due to the each subproblem being 1/2 the size of the original problem
+#f(n)=O(n^2) since it involves the same matrix addition and subtraction as the naive algorithm
+#T(n)=7T(n/2)+O(n^2)
+#Master Theorem; log_2(7)~critical exponent of 2.81
+
+ 
+
