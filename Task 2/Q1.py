@@ -1,7 +1,8 @@
 import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg as spla
-
+import time
+import matplotlib.pyplot as plt
 def heisenberg_xxx(N, J=1.0):
     """
     Constructs the Heisenberg XXX Hamiltonian matrix for N spins with periodic boundary conditions.
@@ -35,12 +36,61 @@ def heisenberg_xxx(N, J=1.0):
     
     return H.tocsr()  # Convert to CSR format for efficient calculations
 
-# Example usage
+def analyze_time_complexity(max_N=10):
+    """
+    Analyze the runtime and compare with theoretical time complexity.
+    
+    Parameters:
+    max_N (int): Maximum number of spins to test.
+    """
+    # Lists to store experimental measurements
+    N_values = list(range(2, max_N + 1))
+    runtimes = []
+    
+    # Measure actual runtimes
+    for N in N_values:
+        start = time.time()
+        H = heisenberg_xxx(N)
+        end = time.time()
+        runtimes.append(end - start)
+    
+    # Theoretical complexity analysis
+    # For Heisenberg XXX matrix: O(N * 2^N)
+    theoretical_times = [N * (2**N) * 1e-6 for N in N_values]  # Scale factor added for visualization
+    
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    plt.plot(N_values, runtimes, 'bo-', label='Experimental Runtime')
+    plt.plot(N_values, theoretical_times, 'r--', label='Theoretical Complexity')
+    plt.xlabel('Number of Spins (N)')
+    plt.ylabel('Time (seconds)')
+    plt.title('Heisenberg XXX Matrix Construction: Runtime vs Theoretical Complexity')
+    plt.legend()
+    plt.yscale('log')  # Use log scale to better visualize exponential growth
+    plt.grid(True, which="both", ls="-", alpha=0.2)
+    plt.tight_layout()
+    plt.show()
+    
+    # Print detailed analysis
+    print("\nDetailed Runtime and Complexity Analysis:")
+    print("N\tExperimental Runtime\tTheoretical Complexity")
+    for N, runtime, theo_time in zip(N_values, runtimes, theoretical_times):
+        print(f"{N}\t{runtime:.6f} s\t\t{theo_time:.6f} s")
+
+# Run the complexity analysis
+analyze_time_complexity(max_N=8)
+
+
+
+
+
+"""""
+ Example/ test usage
 N = 3  # Number of spins
 H = heisenberg_xxx(N)
 print("Hamiltonian matrix (dense representation):\n", H.toarray())
 
-""""
+
 printed result;
 Hamiltonian matrix (dense representation):
  [[ 0.75  0.    0.    0.    0.    0.    0.    0.  ]
